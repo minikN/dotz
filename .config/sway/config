@@ -16,6 +16,8 @@ bindsym --to-code $mod+Shift+f fullscreen
 bindsym $mod+Shift+q kill
 bindsym $mod+Shift+space floating toggle
 bindsym $mod+Ctrl+space focus mode_toggle
+bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+
 
 ## Applications
 # term
