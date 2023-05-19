@@ -1,5 +1,17 @@
 #!/bin/sh
 
+### Initial setup for dotfiles
+###
+### After cloning this repo, set execution bit on this file.
+### Then, in the root dir of the repo, run
+###
+### .local/bin/setup .config/packages
+###
+### This will install all packages defined in .config/packages,
+### activate services and symlink all dot files. After that,
+### dont' runt this file again. Instead, run `sp` to sync
+### packages.
+
 # Sync packages
 chmod +x .local/bin/sp
 .local/bin/sp $1

@@ -1,11 +1,12 @@
 #!/bin/sh
 
-#if [ -n "$1" ] 
-#then
-#	DESTDIR=$1
-#else
-#	DESTIR="$XDG_CONFIG_HOME/packages"
-#fi
+### Simple apt package syncing using a provided file.
+### Script can either be run with a param specifying the file,
+### or "$XDG_CONFIG_HOME/packages" will be used.
+### 
+### Running "sudo apt install ..." manually defeats the purpose
+### of this script. Edit the packages file and run this script.
+
 DESTDIR=${1:-$XDG_CONFIG_HOME/packages}
 
 echo "Using $DESTDIR ..."
