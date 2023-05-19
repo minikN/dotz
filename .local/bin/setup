@@ -18,16 +18,69 @@ chmod +x .local/bin/sp
 .local/bin/sp $1
 
 # Window manager
-if ! command -v ly &> /dev/null
-then
-	echo "Installing window manager ..."
+if ! [ -x "$(command -v ly)" ]; then
+	echo "Building and installing window manager ..."
+
+	## Installing runtime dependencies
+	sudo apt -y install libpam0g-dev libxcb-xkb-dev
+
+	## Getting source code
+	rm -rf /tmp/ly
 	git clone --recurse-submodules https://github.com/fairyglade/ly /tmp/ly
 	cd /tmp/ly
+
+	## Building and installing
 	make
 	sudo make install installsystemd
 	sudo systemctl enable ly
 	exit
 fi
+
+
+# rofi-wayland
+if ! [ -x "$(command -v rofi)" ]; then
+	echo "Building and installing rofi ..."
+	## Installing dependencies
+	sudo apt install -y libglib2.0-dev libcairo-dev libpango1.0-dev libxkbcommon-dev \
+		libgdk-pixbuf2.0-dev libxcb-util-dev libxkbcommon-x11-dev libxcb-icccm4-dev \
+		libxcb-ewmh-dev libxcb-randr0-dev libxcb-cursor-dev libxcb-xinerama0-dev \
+		libstartup-notification0-dev librust-wayland-client-dev flex bison
+	
+	## Getting source code
+	rm -rf /tmp/rofi
+	git clone https://github.com/lbonn/rofi /tmp/rofi
+	cd /tmp/rofi
+	git submodule update --init
+	
+	## Building and installing
+	meson setup build
+	ninja -C build
+	sudo ninja -C build install
+	exit
+fi
+
+# fonts
+
+#fonts=( 
+#"Iosevka" 
+#)
+
+if [ ! -d "/path/dir/" ]; then
+	echo "Installing fonts ..."
+       	mkdir -p ~/.local/share/fonts
+	sudo apt -y install wget unzip
+fi
+
+
+for font in Iosevka; do
+	if [ ! -d "$HOME/.local/share/fonts/$font" ]; then
+		echo "Installing $font ..."
+		wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/$font.zip
+		unzip $font.zip -d $HOME/.local/share/fonts/$font/
+        	rm $font.zip
+	fi
+done
+fc-cache
 
 # Enable services
 sudo systemctl enable acpid

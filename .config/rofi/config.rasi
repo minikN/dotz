@@ -1,0 +1,24 @@
+configuration {
+	modes: "window,drun,run,ssh";
+	show-icons: true;
+	drun-show-actions: true;
+	font: "Iosevka Nerd Font Light 15";
+	kb-element-next: "";
+	kb-row-select: "Tab,Control+i";
+	kb-secondary-paste: "Control+y";
+	kb-remove-word-back: "Control+w,Control+BackSpace";
+	kb-remove-word-forward: "Alt+d";
+	kb-clear-line: "Control+slash";
+	kb-page-prev: "Control+v";
+	kb-page-next: "Alt+v";
+  timeout {
+      action: "kb-cancel";
+      delay:  0;
+  }
+  filebrowser {
+      directories-first: true;
+      sorting-method:    "name";
+  }
+}
+
+@theme "Arc"
