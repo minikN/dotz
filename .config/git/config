@@ -1,0 +1,9 @@
+[user]
+	name = Demis Balbach
+	email = db@minikn.xyz
+	signingKey = F17DDB98CC3C405C
+[commit]
+	gpgSign = true
+[gpg]
+	program = gpg
+

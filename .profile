@@ -54,6 +54,13 @@ fi
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export SHELL=$(which zsh)
 
+# GPG
+export GNUPGHOME="$XDG_DATA_HOME/gnupg"
+
+# SSH
+export SSH_AGENT_PID=""
+export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/.local/bin" ] ; then

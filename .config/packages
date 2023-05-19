@@ -5,6 +5,7 @@ firmware-amd-graphics
 ### GENERAL
 vim
 git
+gpg
 stow
 tree
 thunar
@@ -17,6 +18,7 @@ network-manager
 acpi
 acpid
 avahi-daemon
+pinentry-qt
 build-essential
 # network-manager-gnome
 
