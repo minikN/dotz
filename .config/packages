@@ -1,0 +1,49 @@
+### FIRMWARE
+intel-microcode
+firmware-amd-graphics
+
+### GENERAL
+vim
+git
+stow
+tree
+thunar
+thunar-archive-plugin
+thunar-volman
+
+### SYSTEM
+jq
+network-manager
+acpi
+acpid
+avahi-daemon
+build-essential
+# network-manager-gnome
+
+### BROWSERS
+firefox-esr
+ungoogled-chromium
+
+### SHELL
+zsh
+
+### WINDOW MANAGER
+sway
+waybar
+policykit-1-gnome
+
+### WAYLAND
+grim
+slurp
+mako-notifier
+wofi
+wayland-protocols
+xwayland
+libgtk-layer-shell-dev
+xdg-desktop-portal-wlr
+wl-clipboard
+
+### LOGIN MANAGER
+libpam0g-dev
+libxcb-xkb-dev
+

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Sync packages
+chmod +x .local/bin/sp
+.local/bin/sp $1
+
+# Enable services
+sudo systemctl enable acpid
+sudo systemctl enable avahi-daemon
+
+# Symlinking
+stow . -t ~/

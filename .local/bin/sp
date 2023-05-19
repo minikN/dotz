@@ -1,0 +1,12 @@
+#!/bin/sh
+
+#if [ -n "$1" ] 
+#then
+#	DESTDIR=$1
+#else
+#	DESTIR="$XDG_CONFIG_HOME/packages"
+#fi
+DESTDIR=${1:-$XDG_CONFIG_HOME/packages}
+
+echo "Using $DESTDIR ..."
+grep -v '^#' "$DESTDIR" | xargs -r sudo apt -q install -y
