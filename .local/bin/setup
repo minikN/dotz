@@ -13,8 +13,21 @@
 ### packages.
 
 # Sync packages
+echo "Syncing packages ..."
 chmod +x .local/bin/sp
 .local/bin/sp $1
+
+# Window manager
+if ! command -v ly &> /dev/null
+then
+	echo "Installing window manager ..."
+	git clone --recurse-submodules https://github.com/fairyglade/ly /tmp/ly
+	cd /tmp/ly
+	make
+	sudo make install installsystemd
+	sudo systemctl enable ly
+	exit
+fi
 
 # Enable services
 sudo systemctl enable acpid
