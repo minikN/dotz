@@ -3,6 +3,7 @@ intel-microcode
 firmware-amd-graphics
 
 ### GENERAL
+alacritty
 vim
 git
 gpg
@@ -28,6 +29,7 @@ ungoogled-chromium
 
 ### SHELL
 zsh
+zsh-syntax-highlighting
 
 ### WINDOW MANAGER
 sway

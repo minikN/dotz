@@ -1,37 +1,130 @@
-# Set up the prompt
+# Local Variables:
+# mode: sh
+# End:
 
-autoload -Uz promptinit
-promptinit
-prompt adam1
+# Prevent freezing output on ^s, needed for various isearches
+hash stty 2> /dev/null && stty -ixon
 
-setopt histignorealldups sharehistory
+# Completions and other stuff
+autoload -U compinit
+compinit -d ${XDG_CACHE_HOME:-$HOME/.cache}/.zcompdump
 
-# Use emacs keybindings even if our EDITOR is set to vi
-bindkey -e
+# Enable bash completion, requires to source them from somewhere
+# autoload -U bashcompinit && bashcompinit
 
-# Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
-HISTSIZE=1000
-SAVEHIST=1000
-HISTFILE=~/.zsh_history
+zstyle ':completion:*' menu select
+zstyle ':completion:*' insert-tab false
 
-# Use modern completion system
-autoload -Uz compinit
-compinit
+# Automatically update cache of binaries avaliable in $PATH
+zstyle ':completion:*' rehash true # Can have a performance penalty
 
-zstyle ':completion:*' auto-description 'specify: %d'
-zstyle ':completion:*' completer _expand _complete _correct _approximate
-zstyle ':completion:*' format 'Completing %d'
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*' menu select=2
-eval "$(dircolors -b)"
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' list-colors ''
-zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
-zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
-zstyle ':completion:*' menu select=long
-zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
-zstyle ':completion:*' use-compctl false
-zstyle ':completion:*' verbose true
+# Approximate completion
+# zstyle ':completion:::::' completer _complete _approximate
+# zstyle ':completion:*:approximate:*' max-errors 2
 
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
-zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+# Fuzzy completion
+# https://superuser.com/questions/415650/does-a-fuzzy-matching-mode-exist-for-the-zsh-shell
+zstyle ':completion:*' matcher-list '' \
+  'm:{a-z\-}={A-Z\_}' \
+  'r:[^[:alpha:]]||[[:alpha:]]=** r:|=* m:{a-z\-}={A-Z\_}' \
+  'r:|?=** m:{a-z\-}={A-Z\_}'
+
+# Make kill completion smart
+zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,args -w -w"
+
+# Colored completion for files and dirs according to LS_COLORS
+
+hash dircolors 2> /dev/null && eval $(dircolors --sh) && \
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+# Prompt theme setup
+clear_fn() {
+#  zle reset-prompt
+  zle kill-buffer
+}
+
+prompt_rde_precmd() {
+  # Prevent killing prompt on ^C
+  trap 'clear_fn' SIGINT
+}
+
+prompt_rde_setup() {
+  if [[ $UID -eq 0 ]]; then
+    user_part='%F{red}>%f'
+  else
+    user_part='%F{green}>%f'
+  fi
+  if [ -n "$GUIX_ENVIRONMENT" ]; then
+    genv_part='%F{blue}>%f'
+  fi
+  # exit_code_part='%(?..[%?])'
+
+  PS1="$user_part$genv_part "
+  # RPS1="$exit_code_part"
+
+  # Fish-like C-c behavior
+  # add-zsh-hook precmd prompt_rde_precmd
+}
+
+# Load promptinit and set rde theme
+autoload -Uz promptinit && promptinit
+prompt_themes+=( rde )
+prompt rde
+
+setopt printexitvalue # Instead of using RPS1 for status code
+
+echo -en "\033[6 q" # Make a cursor to be a vertical bar
+
+# Remove slashes and dashes from wordchars to make M-b, M-f work
+# correctly
+WORDCHARS=""
+
+# Configure history
+HISTSIZE=5000
+SAVEHIST=$HISTSIZE
+HISTFILE=${XDG_CACHE_HOME:-$HOME/.cache}/.zhistory
+
+#setopt incappendhistory # Save history to shared file, but not read
+setopt sharehistory     # Share history across shell sessions
+setopt histignorespace  # Ignore commands that start with space
+
+# Configuring help (M-h to call it on current command/function)
+autoload -Uz run-help
+(( ${+aliases[run-help]} )) && unalias run-help
+autoload -Uz run-help-git
+
+# Delete, home, end buttons
+bindkey  "^[[3~"  delete-char
+bindkey  "^[[H"   beginning-of-line
+bindkey  "^[[F"   end-of-line
+
+# Launch $VISUAL or $EDITOR, for emacsclient if there is no server
+# avaliable $ALTERNATE_EDITOR will be used.
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey "^X^E" edit-command-line
+
+# Do not require sudo for some system commands.
+for command in mount umount sv updatedb su ; do
+	alias $command="sudo $command"
+done; unset command
+
+# Verbosity and common settings.
+alias \
+      cp='cp -iv' \
+      mv='mv -iv' \
+      rm='rm -vI' \
+      mkdir='mkdir -pv' \
+      ffmpeg='ffmpeg -hide_banner'
+
+# Colorize commands when possible.
+alias \
+      ls='ls -hp --color=auto' \
+      ll='ls -lAh --group-directories-first --color=auto' \
+      grep='grep --color=auto' \
+      diff='diff --color=auto'
+
+# Useful aliases.
+alias help=run-help
+alias ka='killall'
+alias sdn='sudo shutdown'
