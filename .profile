@@ -19,8 +19,9 @@ export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$UID}"
 export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share/:/usr/share/}"
 
 # Custom dirs
-export DOT_DIR="${XDG_DATA_HOME}/git"
-
+export REPO_DIR="${XDG_DATA_HOME}/git"
+export MOZ_ENABLE_WAYLAND=1
+export _JAVA_AWT_WM_NONREPARENTING=1
 
 # XDG User directories
 if [ ! -d "$HOME/dls" ] ; then

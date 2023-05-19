@@ -5,7 +5,7 @@
 ### Script can either be run with a param specifying the file,
 ### or "$GIT_DIR/dotz" will be used.
 
-DESTDIR=${1:-$DOT_DIR/dotz/}
+DESTDIR=${1:-$REPO_DIR/dotz/}
 
 echo "Syncing symlinks using $DESTDIR ..."
 stow --dir $DESTDIR --target ~/ .
