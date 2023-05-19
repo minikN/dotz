@@ -65,7 +65,7 @@ fi
 #"Iosevka" 
 #)
 
-if [ ! -d "/path/dir/" ]; then
+if [ ! -d "$HOME/.local/share/fonts" ]; then
 	echo "Installing fonts ..."
        	mkdir -p ~/.local/share/fonts
 	sudo apt -y install wget unzip
