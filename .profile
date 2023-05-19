@@ -18,9 +18,19 @@ export XDG_LOG_HOME="$HOME/.local/var/log"
 export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$UID}"
 export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share/:/usr/share/}"
 
-# Custom dirs
+# Custom vars
 export REPO_DIR="${XDG_DATA_HOME}/git"
+
+# Wayland vars
+export XDG_CURRENT_DESKTOP="sway"
+export XDG_SESSION_TYPE="wayland"
+export RTC_USE_PIPEWIRE=true
+export SDL_VIDEODRIVER="wayland"
 export MOZ_ENABLE_WAYLAND=1
+export CLUTTER_BACKEND="wayland"
+export ELM_ENGINE="wayland_egl"
+export ECORE_EVAS_ENGINE="wayland-egl"
+export QT_QPA_PLATFORM="wayland-egl"
 export _JAVA_AWT_WM_NONREPARENTING=1
 
 # XDG User directories
