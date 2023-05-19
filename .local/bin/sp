@@ -9,6 +9,36 @@
 ### of this script. Edit the packages file and run this script.
 
 DESTDIR=${1:-$XDG_CONFIG_HOME/packages}
+PACKAGES=$(grep -v '^#' "$DESTDIR")
 
-echo "Using $DESTDIR ..."
-grep -v '^#' "$DESTDIR" | xargs -r sudo apt -q install -y
+# Colors
+RED="\033[1;31m"
+GREEN="\033[1;32m"
+YELLOW="\033[1;33m"
+BOLD="\033[1m"
+RESET="\033[0m"
+
+# Functions
+isInstalled() {
+	if dpkg-query --show --showformat='${Status}\n' "${1}" | grep -q 'install ok installed'; then
+		return 0
+	else
+		return 1
+	fi
+}
+
+echo "> ${YELLOW}Using${RESET} $DESTDIR ..."
+echo "> ${GREEN} Syncing packages${RESET} ..."
+for package in $PACKAGES; do
+	if ! isInstalled $package; then
+		echo -n " > ${YELLOW}Installing${RESET} $package ... "
+		if sudo apt-get -y install $package > /dev/null; then
+			echo "${GREEN}Done${RESET}."
+		fi
+	fi
+done
+
+echo -n "> ${YELLOW} Clean${RESET} ... "
+if sudo apt-get -y autoremove > /dev/null; then
+	echo "${GREEN}Done${RESET}."
+fi
