@@ -18,6 +18,9 @@ export XDG_LOG_HOME="$HOME/.local/var/log"
 export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$UID}"
 export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share/:/usr/share/}"
 
+# Custom dirs
+export GIT_DIR="${XDG_DATA_HOME}/git"
+
 
 # XDG User directories
 if [ ! -d "$HOME/dls" ] ; then

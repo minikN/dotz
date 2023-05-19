@@ -87,4 +87,5 @@ sudo systemctl enable acpid
 sudo systemctl enable avahi-daemon
 
 # Symlinking
-stow . -t ~/
+chmod +x .local/bin/sl
+.local/bin/sl $(pwd)

@@ -1,0 +1,11 @@
+#!/bin/sh
+
+### Simple symlink syncing using GNU/Stow.
+###
+### Script can either be run with a param specifying the file,
+### or "$GIT_DIR/dotz" will be used.
+
+DESTDIR=${1:-$GIT_DIR/dotz/}
+
+echo "Syncing symlinks using $DESTDIR ..."
+stow --dir $DESTDIR --target ~/ .

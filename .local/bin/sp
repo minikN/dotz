@@ -1,6 +1,7 @@
 #!/bin/sh
 
 ### Simple apt package syncing using a provided file.
+###
 ### Script can either be run with a param specifying the file,
 ### or "$XDG_CONFIG_HOME/packages" will be used.
 ### 
