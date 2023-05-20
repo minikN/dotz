@@ -20,6 +20,7 @@ export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share/:/usr/share/}"
 
 # Custom vars
 export REPO_DIR="${XDG_DATA_HOME}/git"
+export PASSWORD_STORE_DIR="${XDG_STATE_HOME}/password-store"
 
 # Wayland vars
 export XDG_CURRENT_DESKTOP="sway"

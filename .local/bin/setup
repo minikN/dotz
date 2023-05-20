@@ -59,6 +59,22 @@ if ! [ -x "$(command -v rofi)" ]; then
 	exit
 fi
 
+# tessen
+if ! [ -x "$(command -v tessen)" ]; then
+	echo "Building and installing tessen ..."
+	## Installing dependencies
+	sudo apt install -y pass pass-otp libnotify-bin
+	
+	## Getting source code
+	rm -rf /tmp/tessen
+	git clone https://github.com/ayushnix/tessen /tmp/tessen
+	cd /tmp/tessen
+	
+	## Building and installing
+	sudo make minimal
+	exit
+fi
+
 # fonts
 
 #fonts=( 
