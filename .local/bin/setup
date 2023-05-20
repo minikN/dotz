@@ -75,12 +75,15 @@ if ! [ -x "$(command -v tessen)" ]; then
 	exit
 fi
 
+# nix
+if ! [ -x "$(command -v nix)" ]; then
+	sudo rm -rf /nix
+	sudo mkdir /nix
+	sudo chown "$USER" /nix
+	curl -L https://nixos.org/nix/install | sh -s -- --no-daemon
+fi
+
 # fonts
-
-#fonts=( 
-#"Iosevka" 
-#)
-
 if [ ! -d "$HOME/.local/share/fonts" ]; then
 	echo "Installing fonts ..."
        	mkdir -p ~/.local/share/fonts
@@ -88,7 +91,7 @@ if [ ! -d "$HOME/.local/share/fonts" ]; then
 fi
 
 
-for font in Iosevka, NerdFontsSymbolsOnly; do
+for font in Iosevka NerdFontsSymbolsOnly; do
 	if [ ! -d "$HOME/.local/share/fonts/$font" ]; then
 		echo "Installing $font ..."
 		wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/$font.zip

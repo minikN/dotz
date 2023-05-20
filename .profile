@@ -8,6 +8,10 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
 
 # XDG
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -33,6 +37,24 @@ export ELM_ENGINE="wayland_egl"
 export ECORE_EVAS_ENGINE="wayland-egl"
 export QT_QPA_PLATFORM="wayland-egl"
 export _JAVA_AWT_WM_NONREPARENTING=1
+
+# SHELL
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+export SHELL=$(which zsh)
+
+# GPG
+export GNUPGHOME="$XDG_DATA_HOME/gnupg"
+
+# SSH
+export SSH_AGENT_PID=""
+export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+
+# VIM
+export GVIMINIT='let $MYGVIMRC="$XDG_CONFIG_HOME/vim/gvimrc" | source $MYGVIMRC'
+export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
+
+# VSCODE
+export VSCODE_PORTABLE="$XDG_DATA_HOME"/vscode
 
 # XDG User directories
 if [ ! -d "$HOME/dls" ] ; then
@@ -65,23 +87,9 @@ if [ ! -d "$HOME/vids" ] ; then
 	xdg-user-dirs-update --set VIDEOS ~/vids
 fi
 
-# SHELL
-export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-export SHELL=$(which zsh)
 
-# GPG
-export GNUPGHOME="$XDG_DATA_HOME/gnupg"
-
-# SSH
-export SSH_AGENT_PID=""
-export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-
-# VIM
-export GVIMINIT='let $MYGVIMRC="$XDG_CONFIG_HOME/vim/gvimrc" | source $MYGVIMRC'
-export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
-
-
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$HOME/.local/bin:$PATH"
+# nix
+if [ -e /home/db/.nix-profile/etc/profile.d/nix.sh ]; then
+	export NIXPKGS_ALLOW_UNFREE=1
+	. /home/db/.nix-profile/etc/profile.d/nix.sh;
 fi
