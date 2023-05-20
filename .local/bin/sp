@@ -18,27 +18,68 @@ YELLOW="\033[1;33m"
 BOLD="\033[1m"
 RESET="\033[0m"
 
-# Functions
-isInstalled() {
-	if dpkg-query --show --showformat='${Status}\n' "${1}" | grep -q 'install ok installed'; then
-		return 0
-	else
-		return 1
-	fi
-}
+deletedCount=0
+installedCount=0
 
 echo "> ${YELLOW}Using${RESET} $DESTDIR ..."
 echo "> ${GREEN} Syncing packages${RESET} ..."
 for package in $PACKAGES; do
-	if ! isInstalled $package; then
-		echo -n " > ${YELLOW}Installing${RESET} $package ... "
-		if sudo apt-get -y install $package > /dev/null; then
+	deletePackage=false
+	
+	# delete
+	if echo $package | grep -q -i -E '^\$'; then
+		sed -i --follow-symlinks "/$package/d" $DESTDIR
+		package=$(echo "$package" | cut -d "$" -f2)
+		deletePackage=true
+	fi
+
+	#nix
+	if echo $package | grep -q -i -E '^nix:'; then
+		nixPkgName=$(echo "$package" | cut -d ":" -f2)
+		nixPkgExe=$(echo "$package" | cut -d "." -f2)
+		if $deletePackage; then
+			echo -n " > ${RED}Removing${RESET} $nixPkgExe through nix ... "
+			if nix-env --uninstall "$nixPkgExe" > /dev/null 2>&1; then
+				deletedCount=$((deletedCount+1))
+				echo "${GREEN}Done${RESET}."
+			fi
+		elif ! nix-env -q | grep -q "$nixPkgExe"; then
+			echo -n " > ${YELLOW}Installing${RESET} $nixPkgExe through nix ... "
+			if nix-env -iA "nixpkgs.$nixPkgName" > /dev/null 2>&1; then
+					installedCount=$((installedCount+1))
+					echo "${GREEN}Done${RESET}."
+			fi
+		fi
+		continue
+	fi
+
+	# apt remove
+	if $deletePackage; then
+		echo -n " > ${RED}Removing${RESET} $package ... "
+		if sudo apt-get -y remove $package > /dev/null; then
+			deletedCount=$((deletedCount+1))
 			echo "${GREEN}Done${RESET}."
 		fi
+		continue
 	fi
-done
 
-echo -n "> ${YELLOW} Clean${RESET} ... "
-if sudo apt-get -y autoremove > /dev/null; then
-	echo "${GREEN}Done${RESET}."
+	# apt
+	if ! dpkg-query --show --showformat='${Status}\n' "$package" | grep -q 'install ok installed'; then
+		echo -n " > ${YELLOW}Installing${RESET} $package ... "
+		if sudo apt-get -y install $package > /dev/null; then
+			installedCount=$((installedCount+1))
+			echo "${GREEN}Done${RESET}."
+			fi
+		fi
+		continue
+	done
+
+if [ $deletedCount -gt 0 ]; then
+	echo -n "> Cleaning up ... "
+	if sudo apt-get -y autoremove > /dev/null; then
+		echo "${GREEN}Done${RESET}."
+	fi
 fi
+
+echo "> ${GREEN}$installedCount${RESET} packages installed."
+echo "> ${RED}$deletedCount${RESET} packages removed." 
