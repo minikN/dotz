@@ -76,6 +76,10 @@ export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 export SSH_AGENT_PID=""
 export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 
+# VIM
+export GVIMINIT='let $MYGVIMRC="$XDG_CONFIG_HOME/vim/gvimrc" | source $MYGVIMRC'
+export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
+
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/.local/bin" ] ; then
