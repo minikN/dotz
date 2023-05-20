@@ -19,13 +19,18 @@ pipewire
 pipewire-audio
 pulseaudio-utils
 jq
-network-manager
 acpi
 acpid
 avahi-daemon
 pinentry-qt
 build-essential
-# network-manager-gnome
+network-manager
+network-manager-gnome
+blueman
+
+### CODE
+codium
+codium-insiders
 
 ### BROWSERS
 firefox-esr
@@ -54,4 +59,8 @@ wl-clipboard
 ### LOGIN MANAGER
 libpam0g-dev
 libxcb-xkb-dev
+
+### Multimedia
+steam
+steam-devices
 

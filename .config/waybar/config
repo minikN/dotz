@@ -1,0 +1,171 @@
+[
+  {
+    "position": "top",
+    "name": "right",
+    "output": ["DP-2"],
+    "modules-left": [
+      "sway/workspaces#right"
+    ],
+    "modules-center": [
+      "sway/window"
+    ],
+    "modules-right": [
+      "disk#system",
+      "cpu",
+      "memory",
+      "temperature",
+      "pulseaudio#source",
+      "pulseaudio#sink",
+      "battery",
+      "tray",
+      "clock"
+    ],
+    "sway/workspaces#right": {
+      "disable-scroll": true,
+      "format": "{icon}",
+      "sort-by-number": true,
+      "format-icons": {
+        "1": "󰊯 WWW",
+        "2": " TERMINAL",
+        "3": " CODE",
+        "4": "󰃰 AGENDA",
+        "5": "󱋊 CHAT",
+        "6": "󰫔 MUSIC",
+        "7": "󰸷 GAMES",
+        "8": "\uf0e0",
+        "9": "\uf008",
+        "10": "\uf07c",
+        "urgent": "\uf06a",
+        "focused": "\uf192",
+        "default": "\uf111"
+      },
+      "all-outputs": false,
+      "persistent_workspaces": {
+        "1": ["DP-1"],
+        "2": ["DP-2"],
+        "3": ["DP-2"],
+        "4": ["DP-1"],
+        "5": ["DP-2"],
+        "6": ["DP-1"],
+        "7": ["DP-1"]
+      }
+    },
+    "sway/window": {
+      "format": "{title}",
+      "max-length": 50
+    },
+    "pulseaudio#source": {
+      "format": "{format_source}",
+      "format-source": "󰍮",
+      "format-source-muted": "󰍭",
+      "tooltip-format": "{source_desc} is on {source_volume}%",
+      "on-click": "pavucontrol --tab=4",
+      "scroll-step": 0
+    },
+    "pulseaudio#sink": {
+      "format": "{icon} {volume}%",
+      "format-muted": "󰖁 {volume}%",
+      "format-bluetooth": "{icon} {volume}%",
+      "tooltip-format": "{desc} is on {volume}%",
+      "format-icons": {
+        "default": [
+          "",
+          "",
+          "󰕾",
+          ""
+        ]
+      },
+      "on-click": "pavucontrol",
+      "on-click-middle": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+      "scroll-step": 5
+    },
+    "battery": {
+      "format": "{icon}",
+      "format-charging": "⚡ {icon}",
+      "tooltip-format": "Current capacity: {capacity}%\n\n{timeTo}",
+      "states": {
+        "empty": 10,
+        "low": 20,
+        "half-low": 40,
+        "half": 60,
+        "high": 90,
+        "full": 100
+      },
+      "format-icons": {
+        "empty": "\uf244",
+        "low": "\uf243",
+        "half-low": "\uf243",
+        "half": "\uf242",
+        "high": "\uf241",
+        "full": "\uf240"
+      }
+    },
+    "clock": {
+      "tooltip-format": "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>",
+      "format": "{:%H:%M}",
+      "interval": 60
+    },
+    "temperature": {
+      "critical-threshold": 80,
+      "format-critical": "<span color=\"#ab4642\">{temperatureC}°C </span>",
+      "format": " {temperatureC}°C"
+    },
+    "memory": {
+      "interval": 10,
+      "format": "󰍛 {}%",
+      "tooltip-format": "{used:0.1f}G / {total:0.1f}G"
+    },
+    "cpu": {
+      "interval": 2,
+      "format": "󰻠 {usage}%",
+      "max-length": 10
+    },
+    "disk#system": {
+      "interval": 30,
+      "format": "󰋊 {percentage_free}%",
+      "tooltip-format": "{path}: {used} / {total}",
+      "path": "/"
+  }
+  },
+  {
+    "position": "top",
+    "name": "left",
+    "output": ["DP-1"],
+    "modules-left": [
+      "sway/workspaces#left"
+    ],
+    "modules-center": [
+      "sway/window"
+    ],
+    "sway/workspaces#left": {
+      "disable-scroll": true,
+      "format": "{icon}",
+      "format-icons": {
+        "1": "󰊯 WWW",
+        "WWW": "󰊯",
+        "2": " TERMINAL",
+        "3": " CODE",
+        "4": "󰃰 AGENDA",
+        "5": "󱋊 CHAT",
+        "6": "󰫔 MUSIC",
+        "7": "󰸷 GAMES",
+        "8": "\uf0e0",
+        "9": "\uf008",
+        "10": "\uf07c",
+        "urgent": "\uf06a",
+        "focused": "\uf192",
+        "default": "\uf111"
+      },
+      "all-outputs": false,
+      "persistent_workspaces": {
+        "1": ["DP-1"],
+        "2": ["DP-2"],
+        "3": ["DP-2"],
+        "4": ["DP-1"],
+        "5": ["DP-2"],
+        "6": ["DP-1"],
+        "7": ["DP-1"]
+      }
+    },
+  }
+]

@@ -72,7 +72,7 @@ if [ ! -d "$HOME/.local/share/fonts" ]; then
 fi
 
 
-for font in Iosevka; do
+for font in Iosevka, NerdFontsSymbolsOnly; do
 	if [ ! -d "$HOME/.local/share/fonts/$font" ]; then
 		echo "Installing $font ..."
 		wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/$font.zip
