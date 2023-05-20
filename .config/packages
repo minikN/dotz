@@ -31,6 +31,8 @@ blueman
 ### CODE
 codium
 codium-insiders
+nix:jetbrains.phpstorm
+nix:jetbrains.webstorm
 
 ### BROWSERS
 firefox-esr
