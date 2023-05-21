@@ -28,6 +28,10 @@ bindsym $mod+Return exec $term
 set $menu rofi -show drun
 bindsym --to-code $mod+Shift+d exec $menu
 
+# pass
+set $pass tessen
+bindsym --to-code $mod+Shift+p exec $pass
+
 ## Manipulating windows:
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
