@@ -91,5 +91,6 @@ fi
 # nix
 if [ -e /home/db/.nix-profile/etc/profile.d/nix.sh ]; then
 	export NIXPKGS_ALLOW_UNFREE=1
+	export XDG_DATA_DIRS="$XDG_DATA_DIRS:$HOME/.nix-profile/share"
 	. /home/db/.nix-profile/etc/profile.d/nix.sh;
 fi
