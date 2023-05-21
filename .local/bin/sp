@@ -36,7 +36,7 @@ for package in $PACKAGES; do
 	#nix
 	if echo $package | grep -q -i -E '^nix:'; then
 		nixPkgName=$(echo "$package" | cut -d ":" -f2)
-		nixPkgExe=$(echo "$package" | cut -d "." -f2)
+		nixPkgExe=$(echo "$nixPkgName" | cut -d "." -f2)
 		if $deletePackage; then
 			echo -n " > ${RED}Removing${RESET} $nixPkgExe through nix ... "
 			if nix-env --uninstall "$nixPkgExe" > /dev/null 2>&1; then
