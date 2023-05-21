@@ -69,10 +69,10 @@ for package in $PACKAGES; do
 		if sudo apt-get -y install $package > /dev/null; then
 			installedCount=$((installedCount+1))
 			echo "${GREEN}Done${RESET}."
-			fi
 		fi
-		continue
-	done
+	fi
+	continue
+done
 
 if [ $deletedCount -gt 0 ]; then
 	echo -n "> Cleaning up ... "
