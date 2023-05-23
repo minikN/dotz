@@ -57,6 +57,7 @@ xwayland
 libgtk-layer-shell-dev
 xdg-desktop-portal-wlr
 wl-clipboard
+swayimg
 
 ### LOGIN MANAGER
 libpam0g-dev
