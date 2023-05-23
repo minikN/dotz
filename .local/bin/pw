@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-# Simple rofi select script
+# Simple rofi power menu
 #
 # Copyright (C) 2023 Demis Balbach <db@minikn.xyz>
 
@@ -8,16 +8,19 @@
 # unlimited permission to copy and/or distribute it, with or without
 # modifications, as long as this notice is preserved.
 
-actionChoice=$(echo -e "Sync packages\nSync symlinks\nPower" | rofi -dmenu -i -fuzzy -p "Select action")
+actionChoice=$(echo -e "Power off\nReboot\nSuspend\nLog out" | rofi -dmenu -i -fuzzy -p "Select action")
 
 case $actionChoice in
-    "Sync packages")
-        sp
+    "Power off")
+        systemctl poweroff
         ;;
-    "Sync symlinks")
-        sl
+    "Reboot")
+        systemctl reboot
         ;;
-    "Power")
-        pw
+    "Suspend")
+        systemctl suspend
+        ;;
+    "Log out")
+        swaymsg exit
         ;;
 esac

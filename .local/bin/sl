@@ -1,15 +1,25 @@
 #!/bin/sh
 
-### Simple symlink syncing using GNU/Stow.
-###
-### Script can either be run with a param specifying the file,
-### or "$GIT_DIR/dotz" will be used.
+# Simple symlink syncing using GNU/Stow.
+#
+# Copyright (C) 2023 Demis Balbach <db@minikn.xyz>
 
-DESTDIR=${1:-$REPO_DIR/dotz/}
+# This file is free software; as a special exception the author gives
+# unlimited permission to copy and/or distribute it, with or without
+# modifications, as long as this notice is preserved.
 
-echo "Syncing symlinks using $DESTDIR ..."
+# Script can either be run with a param specifying the file,
+# or "$GIT_DIR/dotz" will be used.
+
+TARGETDIR=${1:-$REPO_DIR/dotz/}
+
+echo "Syncing symlinks using $TARGETDIR ..."
 stow --dir $DESTDIR --target ~/ .
 
+# Making scripts executable
+chmod +x ~/.local/bin/*
+
+# Notifying
 if [ -x "$(command -v notify-send)" ]; then
 	notify-send -t 5000 "Symlinks synced." 
 fi

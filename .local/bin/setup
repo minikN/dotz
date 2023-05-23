@@ -1,20 +1,27 @@
 #!/bin/sh
 
-### Initial setup for dotfiles
-###
-### After cloning this repo, set execution bit on this file.
-### Then, in the root dir of the repo, run
-###
-### .local/bin/setup .config/packages
-###
-### This will install all packages defined in .config/packages,
-### activate services and symlink all dot files. After that,
-### dont' runt this file again. Instead, run `sp` to sync
-### packages.
+# Initial setup for dotfiles
+#
+# Copyright (C) 2023 Demis Balbach <db@minikn.xyz>
+
+# This file is free software; as a special exception the author gives
+# unlimited permission to copy and/or distribute it, with or without
+# modifications, as long as this notice is preserved.
+
+# After cloning this repo, set execution bit on this file.
+# Then, in the root dir of the repo, run
+#
+# .local/bin/setup .config/packages
+#
+# This will install all packages defined in .config/packages,
+# activate services and symlink all dot files. After that,
+# dont' runt this file again. Instead, run `sp` to sync
+# packages.
+
+chmod +x .local/bin/*
 
 # Sync packages
 echo "Syncing packages ..."
-chmod +x .local/bin/sp
 .local/bin/sp $1
 
 # Window manager
@@ -125,5 +132,4 @@ sudo systemctl enable acpid
 sudo systemctl enable avahi-daemon
 
 # Symlinking
-chmod +x .local/bin/sl
 .local/bin/sl $(pwd)

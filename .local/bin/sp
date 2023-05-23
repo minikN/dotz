@@ -1,12 +1,19 @@
 #!/bin/sh
 
-### Simple apt package syncing using a provided file.
-###
-### Script can either be run with a param specifying the file,
-### or "$XDG_CONFIG_HOME/packages" will be used.
-### 
-### Running "sudo apt install ..." manually defeats the purpose
-### of this script. Edit the packages file and run this script.
+# Simple apt package syncing using a provided file.
+#
+# Copyright (C) 2023 Demis Balbach <db@minikn.xyz>
+
+# This file is free software; as a special exception the author gives
+# unlimited permission to copy and/or distribute it, with or without
+# modifications, as long as this notice is preserved.
+
+
+# Script can either be run with a param specifying the file,
+# or "$XDG_CONFIG_HOME/packages" will be used.
+# 
+# Running "sudo apt install ..." manually defeats the purpose
+# of this script. Edit the packages file and run this script.
 
 DESTDIR=${1:-$XDG_CONFIG_HOME/packages}
 PACKAGES=$(grep -v '^#' "$DESTDIR")
@@ -29,6 +36,7 @@ notify () {
 
 echo "> ${YELLOW}Using${RESET} $DESTDIR ..."
 echo "> ${GREEN} Syncing packages${RESET} ..."
+
 for package in $PACKAGES; do
 	deletePackage=false
 	
