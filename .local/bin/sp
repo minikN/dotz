@@ -21,6 +21,12 @@ RESET="\033[0m"
 deletedCount=0
 installedCount=0
 
+notify () {
+	if [ -x "$(command -v notify-send)" ]; then
+		notify-send -t 5000 "$1" "$2" 
+	fi
+}
+
 echo "> ${YELLOW}Using${RESET} $DESTDIR ..."
 echo "> ${GREEN} Syncing packages${RESET} ..."
 for package in $PACKAGES; do
@@ -38,12 +44,14 @@ for package in $PACKAGES; do
 		nixPkgName=$(echo "$package" | cut -d ":" -f2)
 		nixPkgExe=$(echo "$nixPkgName" | cut -d "." -f2)
 		if $deletePackage; then
+			notify "Removing $nixPkgExe through nix ..." 
 			echo -n " > ${RED}Removing${RESET} $nixPkgExe through nix ... "
 			if nix-env --uninstall "$nixPkgExe" > /dev/null 2>&1; then
 				deletedCount=$((deletedCount+1))
 				echo "${GREEN}Done${RESET}."
 			fi
 		elif ! nix-env -q | grep -q "$nixPkgExe"; then
+			notify "Installing $nixPkgExe through nix ..." 
 			echo -n " > ${YELLOW}Installing${RESET} $nixPkgExe through nix ... "
 			if nix-env -iA "nixpkgs.$nixPkgName" > /dev/null 2>&1; then
 					installedCount=$((installedCount+1))
@@ -55,6 +63,7 @@ for package in $PACKAGES; do
 
 	# apt remove
 	if $deletePackage; then
+		notify "Removing $package ..." 
 		echo -n " > ${RED}Removing${RESET} $package ... "
 		if sudo apt-get -y remove $package > /dev/null; then
 			deletedCount=$((deletedCount+1))
@@ -65,6 +74,7 @@ for package in $PACKAGES; do
 
 	# apt
 	if ! dpkg-query --show --showformat='${Status}\n' "$package" | grep -q 'install ok installed'; then
+		notify "Installing $package ..." 
 		echo -n " > ${YELLOW}Installing${RESET} $package ... "
 		if sudo apt-get -y install $package > /dev/null; then
 			installedCount=$((installedCount+1))
@@ -81,5 +91,6 @@ if [ $deletedCount -gt 0 ]; then
 	fi
 fi
 
+notify "Packages synced." "$installedCount packages installed.\n$deletedCount packages removed."
 echo "> ${GREEN}$installedCount${RESET} packages installed."
 echo "> ${RED}$deletedCount${RESET} packages removed." 

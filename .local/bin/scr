@@ -1,5 +1,11 @@
 #!/usr/bin/bash
 
+notify () {
+	if [ -x "$(command -v notify-send)" ]; then
+		notify-send -t 5000 "$1" "$2" 
+	fi
+}
+
 typeChoice=$(echo -e "Region\nAll outputs\nSpecific output\nSpecific window\nActive output\nActive window" | rofi -dmenu -i -fuzzy -p "Take screenshot of")
 editChoice=$(echo -e "Edit\nClipboard\nSave" | rofi -dmenu -i -fuzzy -p "What to do with screenshot")
 
@@ -14,6 +20,7 @@ case $editChoice in
         [[ "$typeChoice" == "Active output" ]] && grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') - | wl-copy -t "image/png"
         [[ "$typeChoice" == "Active window" ]] && grim -g "$(swaymsg -t get_tree | jq -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"')" - | wl-copy -t "image/png"
         [[ "$typeChoice" == "Specific window" ]] && grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp)" - | wl-copy -t "image/png"
+        notify "Screenshot saved to clipboard."
         ;;
 
      "Edit")
@@ -32,5 +39,6 @@ case $editChoice in
         [[ "$typeChoice" == "Active output" ]] && grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') "$filename"
         [[ "$typeChoice" == "Active window" ]] && grim -g "$(swaymsg -t get_tree | jq -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"')" "$filename"
         [[ "$typeChoice" == "Specific window" ]] && grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp)" "$filename"
+        notify "Screenshot saved." "$filename"
         ;;
 esac

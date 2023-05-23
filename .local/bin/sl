@@ -9,3 +9,7 @@ DESTDIR=${1:-$REPO_DIR/dotz/}
 
 echo "Syncing symlinks using $DESTDIR ..."
 stow --dir $DESTDIR --target ~/ .
+
+if [ -x "$(command -v notify-send)" ]; then
+	notify-send -t 5000 "Symlinks synced." 
+fi
