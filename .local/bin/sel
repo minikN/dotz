@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+
+actionChoice=$(echo -e "Sync packages\nSync symlinks" | rofi -dmenu -i -fuzzy -p "Select action")
+
+case $actionChoice in
+    "Sync packages")
+        sp
+        ;;
+    "Sync symlinks")
+        sl
+        ;;
+esac

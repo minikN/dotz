@@ -36,6 +36,10 @@ bindsym --to-code $mod+Shift+p exec $pass
 set $screenshot scr
 bindsym --to-code Print exec $screenshot
 
+# Utilities
+set $util sel
+bindsym --to-code $mod+Space exec $util
+
 ## Manipulating windows:
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
