@@ -32,6 +32,10 @@ bindsym --to-code $mod+Shift+d exec $menu
 set $pass tessen
 bindsym --to-code $mod+Shift+p exec $pass
 
+# screenshot
+set $screenshot scr
+bindsym --to-code Print exec $screenshot
+
 ## Manipulating windows:
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down

@@ -1,0 +1,36 @@
+#!/usr/bin/bash
+
+typeChoice=$(echo -e "Region\nAll outputs\nSpecific output\nSpecific window\nActive output\nActive window" | rofi -dmenu -i -fuzzy -p "Take screenshot of")
+editChoice=$(echo -e "Edit\nClipboard\nSave" | rofi -dmenu -i -fuzzy -p "What to do with screenshot")
+
+filename="$XDG_PICTURES_DIR/screenshots/$(date +'screenshot_%s.png')"
+
+case $editChoice in
+
+    "Clipboard")
+        [[ "$typeChoice" == "Region" ]] && grim -g "$(slurp)" - | wl-copy -t "image/png"
+        [[ "$typeChoice" == "All outputs" ]] && grim - | wl-copy -t "image/png"
+        [[ "$typeChoice" == "Specific output" ]] && grim -o $(slurp -o -f "%o") - | wl-copy -t "image/png"
+        [[ "$typeChoice" == "Active output" ]] && grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') - | wl-copy -t "image/png"
+        [[ "$typeChoice" == "Active window" ]] && grim -g "$(swaymsg -t get_tree | jq -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"')" - | wl-copy -t "image/png"
+        [[ "$typeChoice" == "Specific window" ]] && grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp)" - | wl-copy -t "image/png"
+        ;;
+
+     "Edit")
+        [[ "$typeChoice" == "Region" ]] && grim -g "$(slurp)" - | swappy -f -
+        [[ "$typeChoice" == "All outputs" ]] && grim - | swappy -f -
+        [[ "$typeChoice" == "Specific output" ]] && grim -o $(slurp -o -f "%o") - | swappy -f -
+        [[ "$typeChoice" == "Active output" ]] && grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') - | swappy -f -
+        [[ "$typeChoice" == "Active window" ]] && grim -g "$(swaymsg -t get_tree | jq -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"')" - | swappy -f -
+        [[ "$typeChoice" == "Specific window" ]] && grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp)" - | swappy -f -
+        ;;
+
+     "Save")
+        [[ "$typeChoice" == "Region" ]] && grim -g "$(slurp)" "$filename"
+        [[ "$typeChoice" == "All outputs" ]] && grim "$filename"
+        [[ "$typeChoice" == "Specific output" ]] && grim -o $(slurp -o -f "%o") "$filename"
+        [[ "$typeChoice" == "Active output" ]] && grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') "$filename"
+        [[ "$typeChoice" == "Active window" ]] && grim -g "$(swaymsg -t get_tree | jq -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"')" "$filename"
+        [[ "$typeChoice" == "Specific window" ]] && grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp)" "$filename"
+        ;;
+esac
