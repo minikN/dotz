@@ -22,6 +22,38 @@ export XDG_LOG_HOME="$HOME/.local/var/log"
 export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$UID}"
 export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share/:/usr/share/}"
 
+export XDG_MUSIC_DIR="$HOME/music"
+export XDG_DOCUMENTS_DIR="$HOME/docs"
+export XDG_DOWNLOAD_DIR="$HOME/dls"
+export XDG_PICTURES_DIR="$HOME/pics"
+export XDG_VIDEOS_DIR="$HOME/vids"
+
+# XDG User directories
+if [ ! -d "$HOME/dls" ] ; then
+	mkdir -p "$HOME/dls"
+	xdg-user-dirs-update --set DOWNLOAD ~/dls
+fi
+
+if [ ! -d "$HOME/docs" ] ; then
+	mkdir -p "$HOME/docs"
+	xdg-user-dirs-update --set DOCUMENTS ~/docs
+fi
+
+if [ ! -d "$HOME/music" ] ; then
+	mkdir -p "$HOME/music"
+	xdg-user-dirs-update --set MUSIC ~/music
+fi
+
+if [ ! -d "$HOME/pics" ] ; then
+	mkdir -p "$HOME/pics"
+	xdg-user-dirs-update --set PICTURES ~/pics
+fi
+
+if [ ! -d "$HOME/vids" ] ; then
+	mkdir -p "$HOME/vids"
+	xdg-user-dirs-update --set VIDEOS ~/vids
+fi
+
 # Custom vars
 export REPO_DIR="${XDG_DATA_HOME}/git"
 export PASSWORD_STORE_DIR="${XDG_STATE_HOME}/password-store"
@@ -55,37 +87,6 @@ export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 
 # VSCODE
 export VSCODE_PORTABLE="$XDG_DATA_HOME"/vscode
-
-# XDG User directories
-if [ ! -d "$HOME/dls" ] ; then
-	mkdir -p "$HOME/dls"
-	xdg-user-dirs-update --set DOWNLOAD ~/dls
-fi
-
-if [ ! -d "$HOME/pics" ] ; then
-	mkdir -p "$HOME/pics"
-	xdg-user-dirs-update --set PICS ~/pics
-fi
-
-if [ ! -d "$HOME/docs" ] ; then
-	mkdir -p "$HOME/docs"
-	xdg-user-dirs-update --set DOCUMENTS ~/docs
-fi
-
-if [ ! -d "$HOME/music" ] ; then
-	mkdir -p "$HOME/music"
-	xdg-user-dirs-update --set MUSIC ~/music
-fi
-
-if [ ! -d "$HOME/pics" ] ; then
-	mkdir -p "$HOME/pics"
-	xdg-user-dirs-update --set PICTURES ~/pics
-fi
-
-if [ ! -d "$HOME/vids" ] ; then
-	mkdir -p "$HOME/vids"
-	xdg-user-dirs-update --set VIDEOS ~/vids
-fi
 
 
 # nix
