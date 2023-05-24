@@ -33,6 +33,8 @@ codium
 codium-insiders
 nix:jetbrains.phpstorm
 nix:jetbrains.webstorm
+nix:docker
+nix:docker-compose
 
 ### BROWSERS
 firefox-esr
@@ -45,6 +47,7 @@ zsh-syntax-highlighting
 ### WINDOW MANAGER
 sway
 waybar
+ssh-askpass-gnome
 policykit-1-gnome
 
 ### WAYLAND

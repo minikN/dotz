@@ -73,7 +73,7 @@ for package in $PACKAGES; do
 	if $deletePackage; then
 		notify "Removing $package ..." 
 		echo -n " > ${RED}Removing${RESET} $package ... "
-		if sudo apt-get -y remove $package > /dev/null; then
+		if sudo -A apt-get -y remove $package > /dev/null; then
 			deletedCount=$((deletedCount+1))
 			echo "${GREEN}Done${RESET}."
 		fi
@@ -84,7 +84,7 @@ for package in $PACKAGES; do
 	if ! dpkg-query --show --showformat='${Status}\n' "$package" | grep -q 'install ok installed'; then
 		notify "Installing $package ..." 
 		echo -n " > ${YELLOW}Installing${RESET} $package ... "
-		if sudo apt-get -y install $package > /dev/null; then
+		if sudo -A apt-get -y install $package > /dev/null; then
 			installedCount=$((installedCount+1))
 			echo "${GREEN}Done${RESET}."
 		fi
@@ -94,7 +94,7 @@ done
 
 if [ $deletedCount -gt 0 ]; then
 	echo -n "> Cleaning up ... "
-	if sudo apt-get -y autoremove > /dev/null; then
+	if sudo -A apt-get -y autoremove > /dev/null; then
 		echo "${GREEN}Done${RESET}."
 	fi
 fi

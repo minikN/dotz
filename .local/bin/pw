@@ -12,13 +12,13 @@ actionChoice=$(echo -e "Power off\nReboot\nSuspend\nLog out" | rofi -dmenu -i -f
 
 case $actionChoice in
     "Power off")
-        systemctl poweroff
+        sudo -A poweroff
         ;;
     "Reboot")
-        systemctl reboot
+        sudo -A reboot
         ;;
     "Suspend")
-        systemctl suspend
+        sudo -A suspend
         ;;
     "Log out")
         swaymsg exit
